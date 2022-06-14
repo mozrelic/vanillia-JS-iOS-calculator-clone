@@ -9,43 +9,73 @@
   <body>
     <div class="calc__container">
       <div class="cacl__screen__container">
-        <div class="calc_screen"><span>99</span></div>
+        <div class="calc_screen"><span>0</span></div>
       </div>
 
       <div class="calc__buttons__container">
-        <div class="calc__button __bg-color-gray"><span>C</span></div>
-        <div class="calc__button __bg-color-gray">
+        <button class="calc__button __bg-color-gray" data-clear>
+          <span>C</span>
+        </button>
+        <button class="calc__button __bg-color-gray">
           <span class="__pos">+</span>/<span class="__neg">-</span>
-        </div>
-        <div class="calc__button __bg-color-gray"><span>%</span></div>
-        <div class="calc__button __font-color-white __bg-color-orange">
-          <span class="__divide">&divide;</span>
-        </div>
-        <div class="calc__button __font-color-white"><span>7</span></div>
-        <div class="calc__button __font-color-white"><span>8</span></div>
-        <div class="calc__button __font-color-white"><span>9</span></div>
-        <div class="calc__button __font-color-white">
+        </button>
+        <button class="calc__button __bg-color-gray" data-operator="/">
+          <span>%</span>
+        </button>
+        <button
+          class="calc__button __font-color-white __bg-color-orange"
+          data-operator="/"
+        >
+          <span class="__divide">÷</span>
+        </button>
+        <button class="calc__button __font-color-white" data-number>
+          <span>7</span>
+        </button>
+        <button class="calc__button __font-color-white" data-number>
+          <span>8</span>
+        </button>
+        <button class="calc__button __font-color-white" data-number>
+          <span>9</span>
+        </button>
+        <button class="calc__button __font-color-white" data-operator="*">
           <span class="__times">+</span>
-        </div>
-        <div class="calc__button __font-color-white"><span>4</span></div>
-        <div class="calc__button __font-color-white"><span>5</span></div>
-        <div class="calc__button __font-color-white"><span>6</span></div>
-        <div class="calc__button __font-color-white">
+        </button>
+        <button class="calc__button __font-color-white" data-number>
+          <span>4</span>
+        </button>
+        <button class="calc__button __font-color-white" data-number>
+          <span>5</span>
+        </button>
+        <button class="calc__button __font-color-white" data-number>
+          <span>6</span>
+        </button>
+        <button class="calc__button __font-color-white" data-operator="-">
           <span class="__sub">-</span>
-        </div>
-        <div class="calc__button __font-color-white"><span>1</span></div>
-        <div class="calc__button __font-color-white"><span>2</span></div>
-        <div class="calc__button __font-color-white"><span>3</span></div>
-        <div class="calc__button __font-color-white">
+        </button>
+        <button class="calc__button __font-color-white" data-number>
+          <span>1</span>
+        </button>
+        <button class="calc__button __font-color-white" data-number>
+          <span>2</span>
+        </button>
+        <button class="calc__button __font-color-white" data-number>
+          <span>3</span>
+        </button>
+        <button class="calc__button __font-color-white" data-operator="+">
           <span class="__plus">+</span>
-        </div>
-        <div class="calc__button __font-color-white __grow __no-center">
+        </button>
+        <button class="calc__button __font-color-white __grow __no-center">
           <span>0</span>
-        </div>
-        <div class="calc__button __font-color-white"><span>.</span></div>
-        <div class="calc__button __font-color-white __bg-color-orange">
+        </button>
+        <button class="calc__button __font-color-white" data-dot>
+          <span>.</span>
+        </button>
+        <button
+          class="calc__button __font-color-white __bg-color-orange"
+          data-operator="="
+        >
           <span>=</span>
-        </div>
+        </button>
       </div>
     </div>
     <script type="module" src="/main.js"></script>

@@ -41,8 +41,14 @@ html {
 .calc__buttons__container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  font-size: 5rem;
   gap: 2rem;
+  button {
+    font-size: 5rem;
+    border: none;
+    span {
+      pointer-events: none;
+    }
+  }
 }
 
 .calc__button {
@@ -53,6 +59,7 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
   .__pos {
     top: -1.1rem;
   }
@@ -102,4 +109,7 @@ html {
 .__sub {
   transform: translate(0px, -5px);
   font-size: 7rem;
+}
+.__active {
+  background-color: var(--active-orange) !important;
 }
