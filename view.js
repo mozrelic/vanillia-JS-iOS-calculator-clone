@@ -27,10 +27,12 @@ const updateScreen = function (data) {
 const init = function (data) {
   data.prevNum = '';
   data.curNum = '';
+  data.tempNum = '';
   data.operator = '';
   data.state = false;
   data.sum = '';
 
+  calcScreen.innerText = '0';
   removeOperatorActiveClass();
 };
 
@@ -60,6 +62,7 @@ const operatorPress = function (e, data) {
   }
 
   if (data.state) {
+    calcSum(data);
     removeOperatorActiveClass();
     clicked.classList.add('__active');
     data.operator = operatorValue;
