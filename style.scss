@@ -48,6 +48,9 @@ html {
     span {
       pointer-events: none;
     }
+    &[data-number]:active {
+      background-color: var(--active-gray);
+    }
   }
 }
 
@@ -60,6 +63,7 @@ html {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transition: all 0.5s cubic-bezier(0, 0.99, 0, 1);
   .__pos {
     top: -1.1rem;
   }

@@ -4,7 +4,9 @@ import {
   updateScreen,
   init,
   numPress,
-  firstOperatorPress,
+  operatorPress,
+  decimalPress,
+  invertPress,
   calcSum,
 } from './view';
 
@@ -15,33 +17,51 @@ calcButtonContainer.addEventListener('click', (e) => {
   e.preventDefault();
 
   const operatorKey = e.target.dataset.operator;
+  const equalsKey = e.target.dataset.equals;
+  const clearKey = e.target.dataset.clear === '';
   const numKey = e.target.dataset.number === '';
+  const decimalKey = e.target.dataset.dot === '';
+  const invertKey = e.target.dataset.invert === '';
 
   if (numKey) {
     numPress(e, model);
   }
 
   // if an operator key is pressed and the operator property is NOT empty,
-  if (operatorKey && !model.operator) {
-    firstOperatorPress(e, model);
+  // if (operatorKey && !model.operator) {
+  //   firstOperatorPress(e, model);
+  // }
+  if (operatorKey && model.curNum) {
+    operatorPress(e, model);
   }
 
-  // if (operatorKey && isOperatorActive) {
-  //   model.prevNum = model.curNum;
-  //   model.curNum = '';
-  // }
+  if (operatorKey && model.operator) {
+    model.prevNum = model.curNum;
+    model.curNum = '';
+  }
 
   // C button reset state of calculator
-  if (e.target.dataset.clear === '') {
+  if (clearKey) {
     init(model);
   }
-  if (e.target.dataset.operator === '=') {
+  // calculate sum
+  if (equalsKey) {
     calcSum(model);
   }
 
-  if (model.curNum && model.prevNum) {
-    updateScreen(model);
+  if (decimalKey) {
+    decimalPress(e, model);
   }
+
+  if (invertKey) {
+    invertPress(model);
+  }
+
+  // if (model.curNum && model.prevNum) {
+  //   updateScreen(model);
+  // }
+
+  console.table(model);
 
   updateScreen(model);
 });

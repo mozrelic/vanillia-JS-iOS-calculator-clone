@@ -1,22 +1,23 @@
 import { evaluate } from 'mathjs';
 
 const calcScreen = document.querySelector('.calc_screen');
-// const calcButtonContainer = document.querySelector('.calc__buttons__container');
 const operatorKeys = document.querySelectorAll('[data-operator]');
 
-const isOperatorActive = function () {
-  if (operatorKeys.forEach((el) => el.classList.contains('__active'))) {
-    return true;
-  }
-};
 const removeOperatorActiveClass = function () {
   operatorKeys.forEach((el) => el.classList.remove('__active'));
 };
 
 const calcSum = function (data) {
-  const sum = `${data.curNum}${data.operator}${data.prevNum}`;
-  console.log(sum);
-  data.curNum = evaluate(sum);
+  function compute() {
+    const sum = `${data.prevNum} ${data.operator} ${
+      data.curNum ? data.curNum : data.prevNum
+    }`;
+
+    data.curNum = String(evaluate(sum));
+  }
+
+  compute();
+  removeOperatorActiveClass();
 };
 
 const updateScreen = function (data) {
@@ -27,9 +28,8 @@ const init = function (data) {
   data.prevNum = '';
   data.curNum = '';
   data.operator = '';
+  data.state = false;
   data.sum = '';
-
-  calcScreen.innerText = '0';
 
   removeOperatorActiveClass();
 };
@@ -39,23 +39,57 @@ const numPress = function (e, data) {
   const clicked = target.closest('button');
   const numValue = clicked.innerText;
   data.curNum += numValue;
-  //   console.table(model);
+
+  console.log(data.state);
+
+  if (data.state) {
+    removeOperatorActiveClass();
+  }
 };
 
-const firstOperatorPress = function (e, data) {
+const operatorPress = function (e, data) {
   const { target } = e;
-  const clicked = target.closest('.calc__button');
+  const clicked = target.closest('button');
   const operatorValue = clicked.getAttribute('data-operator');
-  clicked.classList.add('__active');
-  data.operator = operatorValue;
-  console.log(data.operator);
+
+  if (!data.state) {
+    clicked.classList.add('__active');
+    data.operator = operatorValue;
+    data.state = true;
+    return;
+  }
+
+  if (data.state) {
+    removeOperatorActiveClass();
+    clicked.classList.add('__active');
+    data.operator = operatorValue;
+  }
+};
+
+const decimalPress = function (e, data) {
+  if (data.curNum.includes('.')) return;
+
+  const { target } = e;
+  const clicked = target.closest('button');
+  const decimal = clicked.innerText;
+  data.curNum += decimal;
+};
+
+const invertPress = function (data) {
+  if (!data.curNum.includes('-')) {
+    data.curNum = `-${data.curNum}`;
+    return;
+  }
+
+  data.curNum = data.curNum.replace(/-/, '');
 };
 
 export {
   updateScreen,
   init,
   numPress,
-  firstOperatorPress,
+  operatorPress,
+  decimalPress,
+  invertPress,
   calcSum,
-  isOperatorActive,
 };
