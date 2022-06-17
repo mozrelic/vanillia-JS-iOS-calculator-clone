@@ -8,6 +8,7 @@ const removeOperatorActiveClass = function () {
 };
 
 const calcSum = function (data) {
+  if (!data.prevNum && !data.curNum) return;
   function compute() {
     const sum = `${data.prevNum} ${data.operator} ${
       data.curNum ? data.curNum : data.prevNum
@@ -41,8 +42,7 @@ const numPress = function (e, data) {
   const clicked = target.closest('button');
   const numValue = clicked.innerText;
   data.curNum += numValue;
-
-  console.log(data.state);
+  // calcSum(data);
 
   if (data.state) {
     removeOperatorActiveClass();
@@ -87,6 +87,11 @@ const invertPress = function (data) {
   data.curNum = data.curNum.replace(/-/, '');
 };
 
+const percentPress = function () {
+  //   const { target } = e;
+  //   const clicked = target.closest('button');
+};
+
 export {
   updateScreen,
   init,
@@ -94,5 +99,6 @@ export {
   operatorPress,
   decimalPress,
   invertPress,
+  percentPress,
   calcSum,
 };

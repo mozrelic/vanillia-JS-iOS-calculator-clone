@@ -7,6 +7,7 @@ import {
   operatorPress,
   decimalPress,
   invertPress,
+  percentPress,
   calcSum,
 } from './view';
 
@@ -22,25 +23,37 @@ calcButtonContainer.addEventListener('click', (e) => {
   const numKey = e.target.dataset.number === '';
   const decimalKey = e.target.dataset.dot === '';
   const invertKey = e.target.dataset.invert === '';
+  const percentKey = e.target.dataset.percent === '';
 
   //
   // check to see which button was clicked and execute the appropriate function based on that
   //
-  if (numKey) {
+  if (numKey && !model.operator) {
     numPress(e, model);
   }
 
-  // if an operator key is pressed and the operator property is NOT empty,
-  // if (operatorKey && !model.operator) {
-  //   firstOperatorPress(e, model);
-  // }
   if (operatorKey && model.curNum) {
     operatorPress(e, model);
   }
 
-  if (operatorKey && model.operator) {
-    model.prevNum = model.curNum;
-    model.curNum = '';
+  // works but clears screen in between operator press and new key press
+  // if (operatorKey && model.operator) {
+  //   model.prevNum = model.curNum;
+  //   model.curNum = '';
+  // }
+
+  if (numKey && model.operator) {
+    if (!model.prevNum) {
+      model.prevNum = model.curNum;
+      model.curNum = '';
+    }
+
+    if (model.prevNum && model.curNum) {
+      model.prevNum = model.curNum;
+      // model.curNum = '';
+    }
+
+    numPress(e, model);
   }
 
   if (equalsKey) {
@@ -53,6 +66,10 @@ calcButtonContainer.addEventListener('click', (e) => {
 
   if (invertKey) {
     invertPress(model);
+  }
+
+  if (percentKey) {
+    percentPress(e, model);
   }
 
   console.table(model);
