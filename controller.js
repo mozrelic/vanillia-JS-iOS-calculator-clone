@@ -16,7 +16,7 @@ const calcButtonContainer = document.querySelector('.calc__buttons__container');
 calcButtonContainer.addEventListener('click', (e) => {
   e.preventDefault();
 
-  // create all our target the moment the correction button is clicked inside the calculator button container
+  // create our target the moment the correction button is clicked inside the calculator button container
   const operatorKey = e.target.dataset.operator;
   const equalsKey = e.target.dataset.equals;
   const clearKey = e.target.dataset.clear === '';
@@ -28,32 +28,12 @@ calcButtonContainer.addEventListener('click', (e) => {
   //
   // check to see which button was clicked and execute the appropriate function based on that
   //
-  if (numKey && !model.operator) {
+  if (numKey) {
     numPress(e, model);
   }
 
-  if (operatorKey && model.curNum) {
+  if (operatorKey) {
     operatorPress(e, model);
-  }
-
-  // works but clears screen in between operator press and new key press
-  // if (operatorKey && model.operator) {
-  //   model.prevNum = model.curNum;
-  //   model.curNum = '';
-  // }
-
-  if (numKey && model.operator) {
-    if (!model.prevNum) {
-      model.prevNum = model.curNum;
-      model.curNum = '';
-    }
-
-    if (model.prevNum && model.curNum) {
-      model.prevNum = model.curNum;
-      // model.curNum = '';
-    }
-
-    numPress(e, model);
   }
 
   if (equalsKey) {
@@ -74,8 +54,10 @@ calcButtonContainer.addEventListener('click', (e) => {
 
   console.table(model);
 
+  // update the calculator screen after our action has been performed
   updateScreen(model);
 
+  // clearKey must be called at the end in order to reset the entire state of the calculator
   if (clearKey) {
     init(model);
   }
