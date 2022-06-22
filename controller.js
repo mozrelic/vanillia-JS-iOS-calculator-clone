@@ -52,8 +52,6 @@ calcButtonContainer.addEventListener('click', (e) => {
     percentPress(e, model);
   }
 
-  console.table(model);
-
   // update the calculator screen after our action has been performed
   updateScreen(model);
 
@@ -61,4 +59,5 @@ calcButtonContainer.addEventListener('click', (e) => {
   if (clearKey) {
     init(model);
   }
+  console.table(model);
 });

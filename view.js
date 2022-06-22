@@ -40,13 +40,22 @@ const updateScreen = function (data) {
 };
 
 const init = function (data) {
-  data.prevNum = '';
-  data.curNum = '';
-  data.operator = '';
-  data.state = false;
+  // handles the memory clear (i.e. AC)
+  if (data.curNum === '0' || data.curNum === '') {
+    data.prevNum = '';
+    data.curNum = '';
+    data.operator = '';
+    data.state = false;
 
-  calcScreen.innerText = '0';
-  removeOperatorActiveClass();
+    calcScreen.innerText = '0';
+    removeOperatorActiveClass();
+  }
+
+  // handles the screen clear (i.e. C)
+  if (data.curNum.matchAll(/[1-9]/g)) {
+    data.curNum = '';
+    calcScreen.innerText = '0';
+  }
 };
 
 const numPress = function (e, data) {
@@ -58,6 +67,10 @@ const numPress = function (e, data) {
   // if a number is entered immediately after equals has been pressed and a sum has been produced, and before a new operator has been selected, then start an entirely new equation
   if (data.prevNum && !data.operator) {
     data.prevNum = '';
+  }
+
+  if (data.curNum === '0') {
+    data.curNum = numValue;
   }
 
   if (data.state) {
@@ -88,11 +101,11 @@ const operatorPress = function (e, data) {
       data.state = true;
       return;
     }
-    data.state = true;
     clicked.classList.add('__active');
     data.operator = operatorValue;
     data.prevNum = data.curNum;
     data.curNum = '';
+    data.state = true;
     return;
   }
 
