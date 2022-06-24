@@ -1,6 +1,7 @@
 import './style.scss';
 import model from './model';
 import {
+  ClearScreenOrClearMemoryLabel,
   updateScreen,
   init,
   numPress,
@@ -51,6 +52,9 @@ calcButtonContainer.addEventListener('click', (e) => {
   if (percentKey) {
     percentPress(e, model);
   }
+
+  // switches the label of the Clear key
+  ClearScreenOrClearMemoryLabel(model);
 
   // update the calculator screen after our action has been performed
   updateScreen(model);

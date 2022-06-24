@@ -2,28 +2,55 @@ import { evaluate } from 'mathjs';
 
 const calcScreen = document.querySelector('.calc_screen');
 const operatorKeys = document.querySelectorAll('[data-operator]');
+const clearKey = document.querySelector('[data-clear]');
 
 const removeOperatorActiveClass = function () {
   operatorKeys.forEach((el) => el.classList.remove('__active'));
 };
 
+const ClearScreenOrClearMemoryLabel = function (data) {
+  if (data.curNum.matchAll(/[1-9]/g) || data.state) {
+    clearKey.innerText = 'C';
+  }
+
+  if (data.curNum === '') {
+    clearKey.innerText = 'AC';
+  }
+};
+
 const calcSum = function (data) {
   // prevent calc if the necessary operands do not exist
-  if ((!data.prevNum && !data.curNum) || (data.prevNum && !data.curNum)) return;
+  if (!data.prevNum && !data.curNum) return;
+  // if (!data.curNum) return;
 
-  function compute() {
+  // we can pass the boolean true into the compute function to change what it is doing
+  function compute(onlyLeftOperand = false) {
     const sum = `${data.prevNum} ${data.operator} ${
       data.curNum ? data.curNum : data.prevNum
     }`;
 
+    // if true is given to compute as an argument, only left hand operand exists. keep most of the state intact. i.e. don't reset operator, state, or curNum
+    // FIXME: curNum should not be removed in the case in which only the left operand exists.
+    if (onlyLeftOperand) {
+      data.prevNum = String(evaluate(sum));
+      // data.curNum = '';
+      removeOperatorActiveClass();
+      return;
+    }
+    // if both sides of an equation exist, evaluate it normally
     data.prevNum = String(evaluate(sum));
     data.curNum = '';
+    removeOperatorActiveClass();
+    data.operator = '';
+    data.state = false;
+  }
+
+  if (data.prevNum && !data.curNum) {
+    compute(true);
+    return;
   }
 
   compute();
-  removeOperatorActiveClass();
-  data.operator = '';
-  data.state = false;
 };
 
 const updateScreen = function (data) {
@@ -49,6 +76,7 @@ const init = function (data) {
 
     calcScreen.innerText = '0';
     removeOperatorActiveClass();
+    return;
   }
 
   // handles the screen clear (i.e. C)
@@ -69,6 +97,7 @@ const numPress = function (e, data) {
     data.prevNum = '';
   }
 
+  // FIXME: not sure if this is doing anything,
   if (data.curNum === '0') {
     data.curNum = numValue;
   }
@@ -142,12 +171,14 @@ const invertPress = function (data) {
   }
 };
 
+// TODO: complete this feature
 const percentPress = function (data) {
   // if (data.curNum.length >= 2 && data.prevNum) {
   // }
 };
 
 export {
+  ClearScreenOrClearMemoryLabel,
   updateScreen,
   init,
   numPress,
